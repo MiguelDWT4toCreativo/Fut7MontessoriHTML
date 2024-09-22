@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Meta -->
+  <meta name="description" content="Fut 7 - Montessori">
+  <meta name="author" content="Fut 7 - Montessori">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.ico">
+
+  <title>Fut 7 - Montessori</title>
+
+  <!-- Vendor CSS -->
+  <link rel="stylesheet" href="../lib/remixicon/fonts/remixicon.css">
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="../assets/css/style.min.css">
+</head>
+
+<body class="page-sign">
+
+  <div class="card card-sign">
+    <div class="card-header">
+      <a href="" class="sidebar-logo">FUT7</a>
+      <h3 class="card-title">Inicio de sesión</h3>
+      <p class="card-text">Asegúrate de ingresar los datos correctamente.</p>
+    </div><!-- card-header -->
+    <div class="card-body">
+      <form id="signinForm" method="post">
+        <div class="mb-4">
+          <label class="form-label">Correo electrónico</label>
+          <input type="email" id="correo" name="correo" class="form-control" placeholder="Ingrese Correo Electrónico" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" required>
+        </div>
+        <div class="mb-4">
+          <label class="form-label d-flex justify-content-between">Contraseña</label>
+          <input type="password" id="contrasenia" name="contrasenia" class="form-control"
+            placeholder="Ingrese su contraseña">
+        </div>
+        <button type="submit" class="btn btn-primary btn-sign">Ingresar</button>
+      </form>
+    </div><!-- card-body -->
+    <div class="card-footer">¿Aún sin una cuenta? <a href="sign-up.html">Crea una Cuenta</a></div>
+    <!-- card-footer -->
+  </div><!-- card -->
+
+  <script src="../lib/jquery/jquery.min.js"></script>
+  <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script>
+    'use strict';
+
+    // Additional script for dark mode
+    var skinMode = localStorage.getItem('skin-mode');
+    if (skinMode) {
+      $('html').attr('data-skin', 'dark');
+    }
+  </script>
+  <script src="../js/signin.js"></script>
+</body>
+
+</html>

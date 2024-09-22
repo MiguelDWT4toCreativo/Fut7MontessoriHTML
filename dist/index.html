@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Meta -->
+    <meta name="description" content="Fut 7 - Montessori">
+    <meta name="author" content="Fut 7 - Montessori">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+
+    <title>Fut 7 - Montessori</title>
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="lib/remixicon/fonts/remixicon.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="assets/css/style.min.css">
+  </head>
+  <body class="sidebar-offset bg-dark">
+
+    <div class="landing-headline">
+      <div class="landing-header px-4 px-sm-5">
+        <a href="" class="sidebar-logo">FUT7</a>
+        <nav class="nav nav-icon">
+          <a href="" class="nav-link"><i class="ri-twitter-line"></i></a>
+          <a href="" class="nav-link"><i class="ri-facebook-circle-line"></i></a>
+          <a href="" class="nav-link"><i class="ri-instagram-line"></i></a>
+          <a href="" class="nav-link"><i class="ri-youtube-line"></i></a>
+        </nav>
+      </div><!-- landing-header -->
+      <div class="landing-body d-flex flex-column-reverse flex-lg-row align-items-center p-4 px-sm-5 py-lg-0">
+        <div class="headline-text mt-5 mt-lg-0">
+          <h1 class="text-white mb-3 ff-secondary">Bienvenido a Futbol 7 Montessori</h1>
+          <h2 class="fw-light lh-4 mb-4 lh-5">Has tu reserva ahora mismo.</h2>
+          <div class="d-flex gap-2">
+            <a href="pages/sign-in.html" class="btn btn-lg btn-primary">Inicia Sesion</a>
+            <a href="pages/sign-up.html" class="btn btn-lg btn-white">Registrate</a>
+          </div>
+        </div>
+        <div class="headline-content">
+          <div class="img-item one"><img src="assets/img/screen1.png" alt=""></div>
+          <div class="img-item two"><img src="assets/img/screen2.png" alt=""></div>
+          <div class="img-item three"><img src="assets/img/screen3.png" alt=""></div>
+        </div><!-- headline-content -->
+      </div><!-- landing-body -->
+    </div><!-- landing-headline -->
+
+    <footer class="bg-dark">
+      <div class="container-fluid p-4 px-sm-5">
+        <div class="d-flex flex-column flex-lg-row gap-3 text-white">
+          <span class="ms-lg-auto"><span class="opacity-50">2024. </span><a href="https://teseodata.com/" target="_blank" class="text-white">Teseo. </a><span class="opacity-50">Todos los derechos reservados.</span></span>
+        </div>
+      </div><!-- container-fluid -->
+    </footer>
+
+
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+
+    <script src="assets/js/script.js"></script>
+    <script>
+      'use script'
+
+      $('#dropdownDemo .dropdown-item').on('click', function(e){
+        e.preventDefault();
+
+        $(this).addClass('active').siblings().removeClass('active');
+
+        var demo = $(this).text();
+        $(this).closest('.dropdown').find('.dropdown-link span').text(demo);
+
+        var loc = $(this).attr('data-location');
+
+        $('#viewDemo').attr('href', loc);
+
+      });
+    </script>
+  </body>
+</html>

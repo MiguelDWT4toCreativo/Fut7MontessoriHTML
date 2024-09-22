@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Meta -->
+  <meta name="description" content="Fut 7 - Montessori">
+  <meta name="author" content="Fut 7 - Montessori">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.ico">
+
+  <title>Fut 7 - Montessori</title>
+
+  <!-- Vendor CSS -->
+  <link rel="stylesheet" href="../lib/remixicon/fonts/remixicon.css">
+
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="../assets/css/style.min.css">
+</head>
+
+<body class="page-sign">
+
+  <div class="card card-sign">
+    <div class="card-header">
+      <a href="../" class="header-logo mb-4">FUT7</a>
+      <h3 class="card-title">¡Bienvenido!</h3>
+      <p class="card-text">Regístrate a la plataforma FUT7</p>
+    </div><!-- card-header -->
+    <div class="card-body">
+      <form id="signupForm" method="post">
+        <div class="mb-3">
+          <label class="form-label">Nombre</label>
+          <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ingrese su nombre completo">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Teléfono</label>
+          <input type="tel" id="telefono" name="telefono" class="form-control" placeholder="Ingrese su Número de Teléfono">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Correo*</label>
+          <input type="email" id="correo" name="correo" class="form-control" placeholder="Ingrese su Correo Electrónico"
+            pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Contraseña</label>
+          <input type="password" id="password" name="password" class="form-control" placeholder="Genere una contraseña">
+        </div>
+        <div class="mb-4">
+          <small>Al crear una cuenta, usted está aceptando nuestros Términos y condiciones.</small>
+        </div>
+        <button type="submit" class="btn btn-primary btn-sign">Crea una Cuenta</button>
+      </form>
+    </div><!-- card-body -->
+    <div class="card-footer">¿Ya tiene una cuenta? <a href="sign-in.html">Iniciar sesión</a></div><!-- card-footer -->
+  </div><!-- card -->
+
+  <script src="../lib/jquery/jquery.min.js"></script>
+  <script src="../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const nombreInput = document.getElementById('nombre');
+      const telefonoInput = document.getElementById('telefono');
+      const correoInput = document.getElementById('correo');
+      const passwordInput = document.getElementById('password');
+      const signupForm = document.getElementById('signupForm');
+
+      // Variables para almacenar los valores de los campos
+      let nombre = '';
+      let telefono = '';
+      let correo = '';
+      let password = '';
+
+      // Asignar los valores de los campos a las variables al cambiar los inputs
+      nombreInput.addEventListener('input', (event) => {
+        nombre = event.target.value;
+      });
+
+      telefonoInput.addEventListener('input', (event) => {
+        telefono = event.target.value;
+      });
+
+      correoInput.addEventListener('input', (event) => {
+        correo = event.target.value;
+      });
+
+      passwordInput.addEventListener('input', (event) => {
+        password = event.target.value;
+      });
+
+      // Manejar el envío del formulario
+      signupForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevenir el envío predeterminado del formulario
+
+        const data = {
+          nombre: nombre,
+          telefono: telefono,
+          correo: correo,
+          password: password,
+        };
+
+        fetch('https://fut7montessori.com.mx/model/cliente.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams(data),
+        })
+          .then((response) => response.json())
+          .then((result) => {
+            console.log('Success:', result);
+            // Redirigir a la página de inicio de sesión
+            window.location.href = './sign-in.html';
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      });
+    });
+
+    'use strict'
+
+    // Modo oscuro basado en la preferencia del usuario
+    var skinMode = localStorage.getItem('skin-mode');
+    if (skinMode) {
+      $('html').attr('data-skin', 'dark');
+    }
+  </script>
+</body>
+
+</html>
