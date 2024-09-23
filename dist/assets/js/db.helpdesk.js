@@ -121,7 +121,7 @@ var optionTwo = {
     width: 1.5
   },
   xaxis: {
-    overwriteCategories: ['','JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC',''],
+    overwriteCategories: ['','ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC',''],
     tickAmount: 13,
     axisBorder: {
       show: false
@@ -161,14 +161,10 @@ var ctx1 = document.getElementById('chartJS1').getContext('2d');
 var chart1 = new Chart(ctx1, {
   type: 'bar',
   data: {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    labels: ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'],
     datasets: [{
       data: [20, 60, 50, 45, 50, 60, 70, 40, 45, 35, 25, 30],
       backgroundColor: '#506fd9',
-      barPercentage: 0.5
-    }, {
-      data: [10, 40, 30, 40, 60, 55, 45, 35, 30, 20, 15, 20],
-      backgroundColor: '#85b6ff',
       barPercentage: 0.5
     }, {
       data: [8, 30, 40, 35, 40, 45, 35, 30, 25, 10, 20, 15],

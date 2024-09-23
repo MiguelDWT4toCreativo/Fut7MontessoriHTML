@@ -22,6 +22,9 @@
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="../assets/css/style.min.css">
+
+
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 
 <body class="app-calendar sidebar-offset">
@@ -42,17 +45,20 @@
             <a href="#" class="nav-link active"><i class="ri-calendar-fill"></i> <span>Calendario Rentas</span></a>
           </li>
           <li class="nav-item">
-            <a href="../apps/chatadmin.html" class="nav-link"><i class="ri-question-answer-line"></i> <span>Chat</span></a>
+            <a href="../apps/email.html" class="nav-link"><i class="ri-question-answer-line"></i>
+              <span>Chat</span></a>
           </li>
           <li class="nav-item">
             <a href="../apps/contact.html" class="nav-link"><i class="ri-contacts-book-line"></i>
               <span>Contacts</span></a>
           </li>
           <li class="nav-item"></li>
-          <a href="../pages/faqadmin.html" class="nav-link"><i class="ri-file-text-line"></i> <span>Reglamento</span></a>
+          <a href="../pages/faqadmin.html" class="nav-link"><i class="ri-file-text-line"></i>
+            <span>Reglamento</span></a>
           </li>
           <li class="nav-item"></li>
-          <a href="../pages/privacypoliciesadmin.html" class="nav-link"><i class="ri-file-text-line"></i> <span>Políticas de
+          <a href="../pages/privacypoliciesadmin.html" class="nav-link"><i class="ri-file-text-line"></i>
+            <span>Políticas de
               Privacidad</span></a>
           </li>
         </ul>
@@ -88,9 +94,8 @@
 
   <div class="header-main px-3 px-lg-4">
     <a id="menuSidebarOffset" href="#" class="menu-link me-3 me-lg-4"><i class="ri-menu-2-fill"></i></a>
-    <div class="form-search me-auto">
-      <input type="text" class="form-control" placeholder="Search schedule">
-      <i class="ri-search-line"></i>
+    <div class="me-auto">
+
     </div><!-- form-search -->
 
     <div class="dropdown dropdown-skin">
@@ -185,64 +190,14 @@
     <div class="calendar-sidebar">
       <div id="calSidebar" class="sidebar-body">
         <div class="d-grid mb-3">
-          <a id="btnCreateEvent" href="" class="btn btn-primary">Create New Event</a>
+          <a id="btnCreateEvent" href="" class="btn btn-primary">Crear nueva reserva</a>
         </div>
         <div id="datepicker1" class="task-calendar mb-5"></div>
 
-        <h5 class="section-title section-title-sm mb-4">Upcoming Events</h5>
-
-        <ul class="event-group mb-5">
-          <li class="event-item">
-            <div class="event-body">
-              <h6><a href="">Project Concept Meeting</a></h6>
-              <p>08:30AM - 11:30AM</p>
-              <div class="mutual-badge">
-                <ul>
-                  <li><a href="" class="avatar"><img src="../assets/img/img15.jpg" alt=""></a></li>
-                  <li><a href="" class="avatar"><img src="../assets/img/img14.jpg" alt=""></a></li>
-                </ul>
-                <label>Lea and 4 others are going</label>
-              </div><!-- mutual-badge -->
-            </div><!-- event-body -->
-          </li>
-          <li class="event-item">
-            <div class="event-body">
-              <h6><a href="">Company Standup Meeting</a></h6>
-              <p>04:30PM - 05:00PM</p>
-              <div class="mutual-badge">
-                <ul>
-                  <li><a href="" class="avatar"><img src="../assets/img/img10.jpg" alt=""></a></li>
-                  <li><a href="" class="avatar"><img src="../assets/img/img8.jpg" alt=""></a></li>
-                  <li><a href="" class="avatar"><img src="../assets/img/img6.jpg" alt=""></a></li>
-                </ul>
-                <label>Socrates and 8 others are going</label>
-              </div><!-- mutual-badge -->
-            </div><!-- event-body -->
-          </li>
-          <li class="event-item">
-            <div class="event-body">
-              <h6><a href="">Product Presentation</a></h6>
-              <p>Tomorrow, 09:30AM - 10:30AM</p>
-              <div class="mutual-badge">
-                <ul>
-                  <li><a href="" class="avatar"><img src="../assets/img/img15.jpg" alt=""></a></li>
-                  <li><a href="" class="avatar"><img src="../assets/img/img14.jpg" alt=""></a></li>
-                  <li><a href="" class="avatar"><img src="../assets/img/img12.jpg" alt=""></a></li>
-                </ul>
-                <label>Marie and 5 others are going</label>
-              </div><!-- mutual-badge -->
-            </div><!-- event-body -->
-          </li>
-        </ul>
-
-        <h5 class="section-title section-title-sm mb-4">My Calendar</h5>
         <nav class="nav nav-calendar mb-4">
-          <a href="" class="nav-link calendar"><span></span> Calendar Events</a>
-          <a href="" class="nav-link birthday"><span></span> Birthday Events</a>
-          <a href="" class="nav-link holiday"><span></span> Holiday Calendar</a>
-          <a href="" class="nav-link discover"><span></span> Discovered Events</a>
-          <a href="" class="nav-link meetup"><span></span> Meetup Events</a>
-          <a href="" class="nav-link other"><span></span> Other Events</a>
+          <a href="" class="nav-link discover"><span></span> Confirmadas</a>
+          <a href="" class="nav-link meetup"><span></span> Pendientes</a>
+          <a href="" class="nav-link holiday"><span></span> Finalizadas</a>
         </nav>
       </div><!-- sidebar-body -->
     </div><!-- calendar-sidebar -->
@@ -253,98 +208,55 @@
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalLabelCreateEvent">Create New Event</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div><!-- modal-header -->
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">Event Title:</label>
-            <input type="text" class="form-control" placeholder="Enter title of event">
-          </div>
-          <div class="mb-3">
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="etype" id="etype1" value="1" checked>
-              <label class="form-check-label" for="etype1">Event</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="etype" id="etype2" value="2">
-              <label class="form-check-label" for="etype2">Reminder</label>
-            </div>
-          </div>
-          <div class="row g-3 mb-3">
-            <div class="col-7 col-md-8">
-              <label class="form-label">Start Date:</label>
-              <input id="startDate" type="text" class="form-control" placeholder="Choose date">
-            </div><!-- col -->
-            <div class="col">
-              <label class="form-label">Start Time:</label>
-              <select class="form-select">
-                <option value="">Choose time</option>
-                <option value="12:00AM">12:00AM</option>
-                <option value="12:15AM">12:15AM</option>
-                <option value="12:30AM">12:30AM</option>
-                <option value="12:45AM">12:45AM</option>
-              </select>
-            </div><!-- col -->
-          </div><!-- row -->
-          <div class="row g-3 mb-3">
-            <div class="col-7 col-md-8">
-              <label class="form-label">End Date:</label>
-              <input id="endDate" type="text" class="form-control" placeholder="Choose date">
-            </div><!-- col -->
-            <div class="col">
-              <label class="form-label">End Time:</label>
-              <select class="form-select">
-                <option value="">Choose time</option>
-                <option value="12:00AM">12:00AM</option>
-                <option value="12:15AM">12:15AM</option>
-                <option value="12:30AM">12:30AM</option>
-                <option value="12:45AM">12:45AM</option>
-              </select>
-            </div><!-- col -->
-          </div><!-- row -->
-          <div>
-            <label class="form-label">Description</label>
-            <textarea class="form-control" rows="3" placeholder="Write some description (optional)"></textarea>
-          </div>
-        </div><!-- modal-body -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Add Event</button>
-        </div><!-- modal-footer -->
-      </div><!-- modal-content -->
-    </div><!-- modal-dialog -->
-  </div><!-- modal -->
 
-  <div class="modal modal-event fade" id="modalEventView" tabindex="-1" aria-labelledby="modalLabelEventView"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalLabelEventView">Modal Title</h5>
+          <h5 class="modal-title" id="modalLabelCreateEvent">Nueva reserva</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div><!-- modal-header -->
+
         <div class="modal-body">
-          <div class="date-item">
-            <i class="ri-calendar-line"></i>
-            <div>Date: <span>September 30, 2023</span></div>
-          </div><!-- date-item -->
-          <div class="date-item">
-            <i class="ri-time-line"></i>
-            <div>Time: <span>11:30AM - 12:30PM</span></div>
-          </div><!-- date-item -->
-          <div class="date-item">
-            <i class="ri-map-pin-line"></i>
-            <div>Location: <span>No location</span></div>
-          </div><!-- date-item -->
-          <hr class="opacity-0">
-          <label class="mb-2">Description:</label>
-          <p>In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis az pede mollis.</p>
+
+          <div class="g-3 mb-3 row">
+            <div class="col-md-2 col-3">
+              <label class="form-label">Asistentes:</label>
+              <input id="asistentes" name="asistentes" type="number" class="form-control " placeholder="#" min="1">
+            </div>
+          </div>
+
+          <div class="g-3 mb-3 row">
+            <div class="col-md-5 col-7">
+              <label class="form-label">Fecha:</label>
+              <input id="fecha" name="fecha" type="date" class="form-control" placeholder="Escoge una fecha">
+            </div><!-- col -->
+
+            <div class="col">
+              <label class="form-label">Inicio:</label>
+              <select id="horaInicio" name="horaInicio" class="form-select">
+                <option>Hora...</option>
+              </select>
+            </div><!-- col -->
+
+            <div class="col">
+              <label class="form-label">Finalización:</label>
+              <select id="horaFin" name="horaFin" class="form-select">
+                <option>Hora</option>
+              </select>
+            </div><!-- col -->
+
+          </div><!-- row -->
+
+          <div class="mb-3">
+            <div class="col-md-3 col-3">
+              <label class="form-label">Total:</label>
+              <input id="total" name="total" type="text" class="form-control" placeholder="Automático" disabled>
+            </div>
+          </div>
         </div><!-- modal-body -->
+
         <div class="modal-footer">
-          <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button>
+          <button id="btnGuardar" type="button" class="btn btn-primary">Guardar</button>
         </div><!-- modal-footer -->
+
       </div><!-- modal-content -->
     </div><!-- modal-dialog -->
   </div><!-- modal -->
@@ -359,8 +271,160 @@
   <script src="../assets/js/script.js"></script>
   <script src="../assets/js/calendar-events.js"></script>
   <script src="../assets/js/calendar.js"></script>
+
   <script>
     'use script'
+
+
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const stripe = Stripe('pk_live_51PyhP5KJQTnSHL1ZgCd4aiOMCm8i7w6EKzBzf2XsYUvAoSiUdHGbGrJT9myaYySsj2hNtSvNGyZZsJMGp941azbt003Rs2iw1X');
+      const hourOptions = ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00'];
+      const btnGuardar = document.getElementById('btnGuardar');
+      const fechaInput = document.getElementById('fecha');
+      const horaInicioSelect = document.getElementById('horaInicio');
+      const horaFinSelect = document.getElementById('horaFin');
+      const totalInput = document.getElementById('total');
+
+      let clientSecret = '';
+
+      // Cargar las opciones de horas de inicio
+      hourOptions.forEach(hour => {
+        const option = document.createElement('option');
+        option.value = hour;
+        option.textContent = hour;
+        horaInicioSelect.appendChild(option);
+      });
+
+      // Manejar el cambio de hora de inicio
+      horaInicioSelect.addEventListener('change', function () {
+        const startHour = this.value;
+        horaFinSelect.innerHTML = '<option>Hora</option>';
+        let [hour, minutes] = startHour.split(':');
+        hour = parseInt(hour);
+        minutes = parseInt(minutes);
+
+        // Generar opciones de fin: 1 hora, 1.5 horas y 2 horas
+        for (let i = 1; i <= 2; i += 0.5) {
+          const endHour = hour + Math.floor(i);
+          const endMinutes = (minutes + (i % 1) * 60) % 60;
+          const formattedMinutes = endMinutes === 0 ? '00' : endMinutes.toString().padStart(2, '0');
+          const formattedHour = endHour < 10 ? `0${endHour}` : endHour;
+
+          const option = document.createElement('option');
+          option.value = `${formattedHour}:${formattedMinutes}`;
+          option.textContent = `${formattedHour}:${formattedMinutes}`;
+          horaFinSelect.appendChild(option);
+        }
+      });
+
+      // Manejar el cambio de hora de finalización y actualizar el total
+      horaFinSelect.addEventListener('change', function () {
+        const selectedIndex = horaFinSelect.selectedIndex;
+        updateTotal(selectedIndex);
+      });
+
+      // Actualiza el valor del total basado en la selección del índice de la hora de finalización
+      function updateTotal(index) {
+        let totalValue;
+        switch (index) {
+          case 1:
+            totalValue = 500; // 1 hora
+            break;
+          case 2:
+            totalValue = 650; // 1.5 horas
+            break;
+          case 3:
+            totalValue = 800; // 2 horas
+            break;
+          default:
+            totalValue = 0;
+            break;
+        }
+        totalInput.value = totalValue;
+      }
+
+      // Manejar el clic en el botón de guardar
+      btnGuardar.addEventListener('click', async function () {
+        const asistentes = document.getElementById('asistentes').value;
+        const fecha = fechaInput.value;
+        const inicio = horaInicioSelect.value;
+        const finalizacion = horaFinSelect.value;
+        const total = totalInput.value;
+
+        if (!fecha || !inicio || !finalizacion) {
+          alert('Por favor, complete todos los campos.');
+          return;
+        }
+
+        const userCookie = getCookie('user');
+        if (!userCookie) {
+          alert('Error: No se encontró la cookie de usuario. Por favor, inicia sesión.');
+          return;
+        }
+
+        let userData;
+        try {
+          // Decodificar el valor de la cookie antes de parsear
+          const decodedCookie = decodeURIComponent(userCookie);
+          console.log('Cookie decodificada:', decodedCookie); // Para verificar el valor decodificado
+          userData = JSON.parse(decodedCookie);
+        } catch (error) {
+          alert('Error: La cookie de usuario no tiene un formato válido.');
+          console.error('Error al parsear la cookie de usuario:', error);
+          return;
+        }
+
+        if (!userData.token) {
+          alert('Error: La cookie de usuario no contiene un token válido.');
+          return;
+        }
+
+        const reserva = {
+          token: userData.token,
+          cliente: JSON.stringify(userData),
+          numero_asistentes: asistentes,
+          fecha: fecha,
+          inicio: inicio,
+          finalizacion: finalizacion,
+          total: total,
+        };
+
+        try {
+          const response = await fetch('https://fut7montessori.com.mx/dist/model/reserva.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams(reserva)
+          });
+
+          const result = await response.json();
+          if (result.status === "Horario no disponible") {
+            alert('Horario no disponible');
+            return;
+          }
+
+          clientSecret = result.status;
+          console.log('Reserva creada con éxito:', result);
+        } catch (error) {
+          console.error('Error al guardar la reserva:', error);
+        }
+      });
+
+      // Función para obtener la cookie por nombre
+      function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+          if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+      }
+    });
 
 
   </script>
