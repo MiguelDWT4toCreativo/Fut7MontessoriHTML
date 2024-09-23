@@ -23,6 +23,7 @@
   <!-- Template CSS -->
   <link rel="stylesheet" href="../assets/css/style.min.css">
 
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"> -->
   <script src="https://js.stripe.com/v3/"></script>
 </head>
 
@@ -83,7 +84,7 @@
   <div class="header-main px-3 px-lg-4">
     <a id="menuSidebarOffset" href="#" class="menu-link me-3 me-lg-4"><i class="ri-menu-2-fill"></i></a>
     <div class="me-auto">
-      
+
     </div><!-- form-search -->
 
     <div class="dropdown dropdown-skin">
@@ -259,12 +260,163 @@
   <script src="../assets/js/script.js"></script>
   <script src="../assets/js/calendar-events.js"></script>
   <script src="../assets/js/calendar.js"></script>
+
   <script>
     'use script'
 
 
   </script>
-  <script src="../js/calendar.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const stripe = Stripe('pk_live_51PyhP5KJQTnSHL1ZgCd4aiOMCm8i7w6EKzBzf2XsYUvAoSiUdHGbGrJT9myaYySsj2hNtSvNGyZZsJMGp941azbt003Rs2iw1X');
+      const hourOptions = ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00'];
+      const btnGuardar = document.getElementById('btnGuardar');
+      const fechaInput = document.getElementById('fecha');
+      const horaInicioSelect = document.getElementById('horaInicio');
+      const horaFinSelect = document.getElementById('horaFin');
+      const totalInput = document.getElementById('total');
+
+      let clientSecret = '';
+
+      // Cargar las opciones de horas de inicio
+      hourOptions.forEach(hour => {
+        const option = document.createElement('option');
+        option.value = hour;
+        option.textContent = hour;
+        horaInicioSelect.appendChild(option);
+      });
+
+      // Manejar el cambio de hora de inicio
+      horaInicioSelect.addEventListener('change', function () {
+        const startHour = this.value;
+        horaFinSelect.innerHTML = '<option>Hora</option>';
+        let [hour, minutes] = startHour.split(':');
+        hour = parseInt(hour);
+        minutes = parseInt(minutes);
+
+        // Generar opciones de fin: 1 hora, 1.5 horas y 2 horas
+        for (let i = 1; i <= 2; i += 0.5) {
+          const endHour = hour + Math.floor(i);
+          const endMinutes = (minutes + (i % 1) * 60) % 60;
+          const formattedMinutes = endMinutes === 0 ? '00' : endMinutes.toString().padStart(2, '0');
+          const formattedHour = endHour < 10 ? `0${endHour}` : endHour;
+
+          const option = document.createElement('option');
+          option.value = `${formattedHour}:${formattedMinutes}`;
+          option.textContent = `${formattedHour}:${formattedMinutes}`;
+          horaFinSelect.appendChild(option);
+        }
+      });
+
+      // Manejar el cambio de hora de finalización y actualizar el total
+      horaFinSelect.addEventListener('change', function () {
+        const selectedIndex = horaFinSelect.selectedIndex;
+        updateTotal(selectedIndex);
+      });
+
+      // Actualiza el valor del total basado en la selección del índice de la hora de finalización
+      function updateTotal(index) {
+        let totalValue;
+        switch (index) {
+          case 1:
+            totalValue = 500; // 1 hora
+            break;
+          case 2:
+            totalValue = 650; // 1.5 horas
+            break;
+          case 3:
+            totalValue = 800; // 2 horas
+            break;
+          default:
+            totalValue = 0;
+            break;
+        }
+        totalInput.value = totalValue;
+      }
+
+      // Manejar el clic en el botón de guardar
+      btnGuardar.addEventListener('click', async function () {
+        const asistentes = document.getElementById('asistentes').value;
+        const fecha = fechaInput.value;
+        const inicio = horaInicioSelect.value;
+        const finalizacion = horaFinSelect.value;
+        const total = totalInput.value;
+
+        if (!fecha || !inicio || !finalizacion) {
+          alert('Por favor, complete todos los campos.');
+          return;
+        }
+
+        const userCookie = getCookie('user');
+        if (!userCookie) {
+          alert('Error: No se encontró la cookie de usuario. Por favor, inicia sesión.');
+          return;
+        }
+
+        let userData;
+        try {
+          // Decodificar el valor de la cookie antes de parsear
+          const decodedCookie = decodeURIComponent(userCookie);
+          console.log('Cookie decodificada:', decodedCookie); // Para verificar el valor decodificado
+          userData = JSON.parse(decodedCookie);
+        } catch (error) {
+          alert('Error: La cookie de usuario no tiene un formato válido.');
+          console.error('Error al parsear la cookie de usuario:', error);
+          return;
+        }
+
+        if (!userData.token) {
+          alert('Error: La cookie de usuario no contiene un token válido.');
+          return;
+        }
+
+        const reserva = {
+          token: userData.token,
+          cliente: JSON.stringify(userData),
+          numero_asistentes: asistentes,
+          fecha: fecha,
+          inicio: inicio,
+          finalizacion: finalizacion,
+          total: total,
+        };
+
+        try {
+          const response = await fetch('https://fut7montessori.com.mx/dist/model/reserva.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams(reserva)
+          });
+
+          const result = await response.json();
+          if (result.status === "Horario no disponible") {
+            alert('Horario no disponible');
+            return;
+          }
+
+          clientSecret = result.status;
+          console.log('Reserva creada con éxito:', result);
+        } catch (error) {
+          console.error('Error al guardar la reserva:', error);
+        }
+      });
+
+      // Función para obtener la cookie por nombre
+      function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+          if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+      }
+    });
+
+
+  </script>
 </body>
 
 </html>

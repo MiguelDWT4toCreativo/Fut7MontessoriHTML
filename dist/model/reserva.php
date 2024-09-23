@@ -9,6 +9,16 @@ require_once './lib/stripe-php-15.7.0/init.php';
 include 'db.php';
 include 'secrets.php';
 
+if (!isset($stripeSecretKey)) {
+    sendResponse(500, 'Clave secreta de Stripe no definida.');
+}
+
+try {
+    $stripe = new \Stripe\StripeClient($stripeSecretKey);
+} catch (Exception $e) {
+    sendResponse(500, 'Error al crear el cliente de Stripe: ' . $e->getMessage());
+}
+
 function sendResponse($status, $message) {
     http_response_code($status);
     echo json_encode(['status' => $message]);
