@@ -39,12 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $finalizacion = $_POST['finalizacion'];
     $total = $_POST['total'];
 
-    switch ($total) {
-        case 1: $total = 500; break;
-        case 2: $total = 750; break;
-        case 3: $total = 800; break;
-        default: sendResponse(400, 'Datos incompletos');
-    }
+    // switch ($total) {
+    //     case 1: $total = 500; break;
+    //     case 2: $total = 650; break;
+    //     case 3: $total = 800; break;
+    //     default: sendResponse(400, 'Datos incompletos');
+    // }
 
     try {
         $stmt = $pdo->prepare("SELECT customer_id FROM customer_auth WHERE token = ? AND expires_at > NOW()");
