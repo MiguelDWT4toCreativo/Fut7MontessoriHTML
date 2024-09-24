@@ -267,8 +267,11 @@
       const horaInicioSelect = document.getElementById('horaInicio');
       const horaFinSelect = document.getElementById('horaFin');
       const totalInput = document.getElementById('total');
-
-      let clientSecret = '';
+  
+      // Stripe setup
+      // const stripe = Stripe('pk_live_51PyhP5KJQTnSHL1ZgCd4aiOMCm8i7w6EKzBzf2XsYUvAoSiUdHGbGrJT9myaYySsj2hNtSvNGyZZsJMGp941azbt003Rs2iw1X');
+      let elements;
+      let clientSecret = "";
 
       // Cargar las opciones de horas de inicio
       hourOptions.forEach(hour => {
@@ -389,6 +392,7 @@
 
           clientSecret = result.status;
           console.log('Reserva creada con éxito:', result);
+          mostrarFormularioStripe();
         } catch (error) {
           console.error('Error al guardar la reserva:', error);
         }
@@ -407,7 +411,42 @@
       }
     });
 
-
+    function mostrarFormularioStripe() {
+      // Crea el contenedor de Stripe si no existe
+      let stripeContainer = document.getElementById('stripe-container');
+      if (!stripeContainer) {
+        stripeContainer = document.createElement('div');
+        stripeContainer.id = 'stripe-container';
+        document.body.appendChild(stripeContainer); // Agrega el contenedor de Stripe al DOM
+      }
+  
+      elements = stripe.elements({ clientSecret }); // Inicializa Elements con el clientSecret
+      const paymentElement = elements.create('payment'); // Crea el elemento de pago de Stripe
+  
+      // Vaciar el contenedor y montar el elemento de pago
+      stripeContainer.innerHTML = '';
+      const paymentForm = document.createElement('form');
+      paymentForm.id = 'payment-form';
+      paymentForm.addEventListener('submit', handleSubmit);
+  
+      // Contenedor del elemento de pago
+      const paymentDiv = document.createElement('div');
+      paymentDiv.id = 'payment-element';
+      stripeContainer.appendChild(paymentDiv);
+      paymentElement.mount('#payment-element'); // Monta el elemento de pago
+  
+      const submitButton = document.createElement('button');
+      submitButton.id = 'submit';
+      submitButton.type = 'submit';
+      submitButton.innerHTML = `Pay now`;
+      paymentForm.appendChild(submitButton);
+  
+      const messageDiv = document.createElement('div');
+      messageDiv.id = 'payment-message';
+      paymentForm.appendChild(messageDiv);
+  
+      stripeContainer.appendChild(paymentForm);
+    }
   </script>
 </body>
 
