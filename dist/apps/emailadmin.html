@@ -29,7 +29,7 @@
 
   <div class="sidebar">
     <div class="sidebar-header">
-      <a href="#" class="sidebar-logo">FUT7</a>
+      <a href="../dashboard/helpdesk.html" class="sidebar-logo">FUT7</a>
     </div><!-- sidebar-header -->
     <div id="sidebarMenu" class="sidebar-body">
       <div class="nav-group"> </div><!-- nav-group -->
@@ -75,13 +75,13 @@
           <img src="../assets/img/img1.jpg" alt="">
         </div><!-- sidebar-footer-thumb -->
         <div class="sidebar-footer-body">
-          <h6><a href="../pages/profile.html">Usuario</a></h6>
+          <h6><a href="../pages/profileadmin.html">Usuario</a></h6>
         </div><!-- sidebar-footer-body -->
         <a id="sidebarFooterMenu" href="" class="dropdown-link"><i class="ri-arrow-down-s-line"></i></a>
       </div><!-- sidebar-footer-top -->
       <div class="sidebar-footer-menu">
         <nav class="nav">
-          <a href="../pages/profile.html"><i class="ri-edit-2-line"></i>Perfil</a>
+          <a href="../pages/profileadmin.html"><i class="ri-edit-2-line"></i>Perfil</a>
         </nav>
         <hr>
         <nav class="nav">
@@ -167,19 +167,11 @@
       <div class="dropdown-menu dropdown-menu-end mt-10-f">
         <div class="dropdown-menu-body">
           <div class="avatar avatar-xl online mb-3"><img src="../assets/img/img1.jpg" alt=""></div>
-          <h5 class="mb-1 text-dark fw-semibold">Shaira Diaz</h5>
-          <p class="fs-sm text-secondary">Premium Member</p>
+          <h5 class="mb-1 text-dark fw-semibold">Usuario</h5>
 
           <nav class="nav">
-            <a href=""><i class="ri-edit-2-line"></i> Edit Profile</a>
-            <a href=""><i class="ri-profile-line"></i> View Profile</a>
-          </nav>
-          <hr>
-          <nav class="nav">
-            <a href=""><i class="ri-question-line"></i> Help Center</a>
-            <a href=""><i class="ri-lock-line"></i> Privacy Settings</a>
-            <a href=""><i class="ri-user-settings-line"></i> Account Settings</a>
-            <a href=""><i class="ri-logout-box-r-line"></i> Log Out</a>
+            <a href="../pages/profileadmin.html"><i class="ri-edit-2-line"></i> Perfil</a>
+            <a href="../pages/sign-in.html"><i class="ri-logout-box-r-line"></i> Cerrar Sesion</a>
           </nav>
         </div><!-- dropdown-menu-body -->
       </div><!-- dropdown-menu -->
@@ -516,7 +508,7 @@
       suppressScrollX: true
     });
 
-    $('.email-item').on('click', function (e) {
+    $('.email-item').on('click', function(e) {
       e.preventDefault();
       $(this).addClass('selected').siblings().removeClass('selected');
       $(this).removeClass('unread');
@@ -535,37 +527,35 @@
       theme: 'snow'
     });
 
-    $('#menuCompose').on('click', function (e) {
+    $('#menuCompose').on('click', function(e) {
       e.preventDefault();
       $('.compose').removeClass('d-none');
     });
 
-    $('.compose-title, .nav-link-minimize').on('click', function (e) {
+    $('.compose-title, .nav-link-minimize').on('click', function(e) {
       $(this).closest('.compose').toggleClass('minimize');
     });
 
-    $('.nav-link-fullscreen').on('click', function (e) {
+    $('.nav-link-fullscreen').on('click', function(e) {
       e.preventDefault();
       $(this).closest('.compose').toggleClass('fullscreen');
     });
 
-    $('.nav-link-close').on('click', function (e) {
+    $('.nav-link-close').on('click', function(e) {
       e.preventDefault();
       $(this).closest('.compose').addClass('d-none').removeClass('minimize fullscreen');
       $('.menu-compose').removeClass('d-none');
     });
 
-    $('#menuEmail').on('click', function (e) {
+    $('#menuEmail').on('click', function(e) {
       e.preventDefault();
       $(this).closest('.main-email').toggleClass('show');
     });
 
-    $('#mailBack').on('click', function (e) {
+    $('#mailBack').on('click', function(e) {
       e.preventDefault();
       $(this).closest('.main-email').removeClass('show-content');
     })
-
-
   </script>
 </body>
 
