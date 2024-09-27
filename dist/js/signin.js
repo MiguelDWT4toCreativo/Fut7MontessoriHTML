@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const passwordInput = document.getElementById('contrasenia');
     const signinForm = document.getElementById('signinForm');
 
+    const adminList = [
+      'admin@admin.com',
+      'jonguitudarriaga@gmail.com'
+    ];
+
     let correo = '';
     let password = '';
     let wrongBadges = false;
@@ -45,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
           document.cookie = `user=${encodeURIComponent(JSON.stringify(result))}; max-age=${7 * 24 * 60 * 60}; path=/`;
 
           // Redirect based on the email entered
-          if (correo === 'admin@admin.com') {
+          if (adminList.includes(correo)) {
             window.location.href = '../dashboard/helpdesk.html'; // Redirection for admin
           } else {
             window.location.href = '../apps/calendar.html'; // Redirection for other users
