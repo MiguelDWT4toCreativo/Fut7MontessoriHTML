@@ -102,6 +102,9 @@ async function initCalendar() {
         var startDate = moment(info.start).format('LL');
         $('#startDate').val(startDate);
 
+        var fecha = moment(info.start).format('YYYY-MM-DD');
+        document.getElementById('fechaN').value = fecha;
+
         var endDate = moment(info.startStr).add(1, 'days');
         $('#endDate').val(endDate.format('LL'));
 
