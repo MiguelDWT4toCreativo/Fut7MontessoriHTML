@@ -99,14 +99,37 @@ async function initCalendar() {
       eventSources: [window.calendarEvents, window.birthdayEvents, window.holidayEvents], // Accede a los eventos globales
       selectable: true,
       select: function (info) {
-        var startDate = moment(info.start).format('LL');
-        $('#startDate').val(startDate);
+        const [date, time] = moment(info.start).format('YYYY-MM-DD hh:mm').split(' ');
+        document.getElementById('fecha').value = date;
+        document.getElementById('horaInicio').value = time;
+        // document.getElementById('horaInicio').change();
 
-        var fecha = moment(info.start).format('YYYY-MM-DD');
-        document.getElementById('fechaN').value = fecha;
 
-        var endDate = moment(info.startStr).add(1, 'days');
-        $('#endDate').val(endDate.format('LL'));
+        const [endDate, endTime] = moment(info.end).format('YYYY-MM-DD hh:mm').split(' ');
+
+        const horaFinSelect = document.getElementById('horaFin');
+        
+        const startHour = time;
+        horaFinSelect.innerHTML = '<option>Hora</option>';
+        let [hour, minutes] = startHour.split(':');
+        hour = parseInt(hour);
+        minutes = parseInt(minutes);
+
+        // Generar opciones de fin: 1 hora, 1.5 horas y 2 horas
+        for (let i = 1; i <= 2; i += 0.5) {
+          const endHour = hour + Math.floor(i);
+          const endMinutes = (minutes + (i % 1) * 60) % 60;
+          const formattedMinutes = endMinutes === 0 ? '00' : endMinutes.toString().padStart(2, '0');
+          const formattedHour = endHour < 10 ? `0${endHour}` : endHour;
+
+          const option = document.createElement('option');
+          option.value = `${formattedHour}:${formattedMinutes}`;
+          option.textContent = `${formattedHour}:${formattedMinutes}`;
+          horaFinSelect.appendChild(option);
+        }
+
+        horaFinSelect.value = endTime;
+
 
         $('#modalCreateEvent').modal('show');
       },
