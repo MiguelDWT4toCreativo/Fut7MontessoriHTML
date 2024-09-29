@@ -99,13 +99,16 @@ async function initCalendar() {
       eventSources: [window.calendarEvents, window.birthdayEvents, window.holidayEvents], // Accede a los eventos globales
       selectable: true,
       select: function (info) {
-        const [date, time] = moment(info.start).format('YYYY-MM-DD hh:mm').split(' ');
+        const [date, time] = moment(info.start).format('YYYY-MM-DD HH:mm').split(' ');
         document.getElementById('fecha').value = date;
         document.getElementById('horaInicio').value = time;
         // document.getElementById('horaInicio').change();
 
 
-        const [endDate, endTime] = moment(info.end).format('YYYY-MM-DD hh:mm').split(' ');
+        const [endDate, endTime] = moment(info.end).format('YYYY-MM-DD HH:mm').split(' ');
+        let [endHour, endMinutes] = endTime.split(':');
+        endHour = parseInt(endHour);
+        endMinutes = parseInt(endMinutes);
 
         const horaFinSelect = document.getElementById('horaFin');
         
@@ -128,7 +131,24 @@ async function initCalendar() {
           horaFinSelect.appendChild(option);
         }
 
-        horaFinSelect.value = endTime;
+        const timeLapse = (endHour + (endMinutes/60)) - (hour + (minutes/60));
+        let total;
+        switch(timeLapse) {
+          case 0.5:
+            endHour = endHour + (endMinutes/60) + .5;
+            endMinutes = endHour - Math.floor(endHour);
+            endHour = endHour - endMinutes;
+            endMinutes *= 60;
+            total = 500;
+            break;
+          case 1: total = 500; break;
+          case 1.5: total = 650; break;
+          case 2: total = 800; break;
+          default: break;
+        }
+
+        horaFinSelect.value = `${endHour < 10 ? '0'+endHour : endHour}:${endMinutes === 0 ? '00' : endMinutes.toString().padStart(2, '0')}`;
+        document.getElementById('total').value = total;
 
 
         $('#modalCreateEvent').modal('show');
