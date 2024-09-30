@@ -120,8 +120,13 @@ async function initCalendar() {
 
         // Generar opciones de fin: 1 hora, 1.5 horas y 2 horas
         for (let i = 1; i <= 2; i += 0.5) {
-          const endHour = hour + Math.floor(i);
-          const endMinutes = (minutes + (i % 1) * 60) % 60;
+          let totalMinutes = minutes + (i * 60); // Convertir i horas en minutos y sumarlo a los minutos iniciales
+          let endHour = hour + Math.floor(totalMinutes / 60); // Añadir horas completas
+          let endMinutes = totalMinutes % 60; // Obtener los minutos restantes después de convertir a horas
+
+          // Ajustar si la hora sobrepasa 24 horas (formato de 24 horas)
+          endHour = endHour >= 24 ? endHour - 24 : endHour;
+
           const formattedMinutes = endMinutes === 0 ? '00' : endMinutes.toString().padStart(2, '0');
           const formattedHour = endHour < 10 ? `0${endHour}` : endHour;
 
@@ -130,6 +135,7 @@ async function initCalendar() {
           option.textContent = `${formattedHour}:${formattedMinutes}`;
           horaFinSelect.appendChild(option);
         }
+
 
         const timeLapse = (endHour + (endMinutes/60)) - (hour + (minutes/60));
         let total;
