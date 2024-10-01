@@ -117,7 +117,7 @@ $('#skinMode .nav-link').on('click', function(e){
   $(this).addClass('active').siblings().removeClass('active');
 
   var mode = $(this).text().toLowerCase();
-  if(mode == 'dark') {
+  if(mode == 'oscuro') {
     $('html').attr('data-skin', 'dark');
     localStorage.setItem('skin-mode', mode);
   } else {
