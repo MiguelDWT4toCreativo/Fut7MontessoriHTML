@@ -3,38 +3,55 @@ const horaInicioSelect = document.getElementById('horaInicio');
 const horaFinSelect = document.getElementById('horaFin');
 const totalInput = document.getElementById('total');
 const hours = ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00'];
+let freeStartHours = [];
 
 // Cargar las horas disponibles
 fechaInput.addEventListener('change', (e) => {        
     e.preventDefault();
-    getFreeHoursByDate(e.target.value);
+    const reservationDate = e.target.value;
+    freeStartHours = getFreeStartHours(reservationDate);
+
+    while(horaInicioSelect.firstChild) {
+        horaInicioSelect.removeChild(horaInicioSelect.firstChild);
+    };
+
+    freeStartHours.forEach(freeStartHour => {
+        const option = document.createElement('option');
+        option.value = freeStartHour;
+        option.textContent = freeStartHour;
+        horaInicioSelect.append(option);
+    });
 });
 
 // Manejar el cambio de hora de inicio
-horaInicioSelect.addEventListener('change', function () {
-    const startHour = this.value;
-    horaFinSelect.innerHTML = '<option>Hora</option>';
-    let [hour, minutes] = startHour.split(':');
-    hour = parseInt(hour);
-    minutes = parseInt(minutes);
-
-    // Generar opciones de fin: 1 hora, 1.5 horas y 2 horas
-    for (let i = 1; i <= 2; i += 0.5) {
-        let totalMinutes = minutes + (i * 60); // Convertir i horas en minutos y sumarlo a los minutos iniciales
-        let endHour = hour + Math.floor(totalMinutes / 60); // Añadir horas completas
-        let endMinutes = totalMinutes % 60; // Obtener los minutos restantes después de convertir a horas
-
-        // Ajustar si la hora sobrepasa 24 horas (formato de 24 horas)
-        endHour = endHour >= 24 ? endHour - 24 : endHour;
-
-        const formattedMinutes = endMinutes === 0 ? '00' : endMinutes.toString().padStart(2, '0');
-        const formattedHour = endHour < 10 ? `0${endHour}` : endHour;
-
-        const option = document.createElement('option');
-        option.value = `${formattedHour}:${formattedMinutes}`;
-        option.textContent = `${formattedHour}:${formattedMinutes}`;
-        horaFinSelect.appendChild(option);
+horaInicioSelect.addEventListener('change', function (e) {    
+    let horaFinOptions = [];
+    // let horaFinDisabled = true;
+    const value = e.target.value;
+    let [hour, minutes] = value.split(':');
+    const [decimalHour, decimalMinutes] = [+hour, +minutes/60];
+    const decimalTime = decimalHour + decimalMinutes;
+    for (let i = decimalTime + 1; i <= decimalTime + 2; i+=.5) {
+      const floor = Math.floor(i);
+      minutes = ((i-floor)*60) === 0 ? '00' : '30';
+      hour = floor < 10 ? `0${floor}` : `${floor}`;
+      const strTime = `${hour}:${minutes}`; 
+      // if (changingHourOptions.includes(strTime)) {horaFinOptions.push({ value: strTime, label: convertirHora(strTime) }); break;}
+      if (!freeStartHours.includes(strTime) && i === decimalTime + 1 ) {horaFinOptions.push({ value: strTime, label: strTime }); break;}
+      if (!freeStartHours.includes(strTime)) continue;
+      if (decimalTime === 23) {horaFinOptions.push('00:00'); break;}
+      horaFinOptions.push({ value: strTime, label: strTime });
+      if (i === 24) break;
     }
+    while(horaFinSelect.firstChild) {
+        horaFinSelect.removeChild(horaFinSelect.firstChild);
+    }
+    horaFinOptions.forEach(endHour => {
+        const option = document.createElement('option');
+        option.value = endHour.value;
+        option.textContent = endHour.value;
+        horaFinSelect.append(option);
+    }) 
 });
 
 // Manejar el cambio de hora de finalización y actualizar el total
@@ -63,22 +80,22 @@ function updateTotal(index) {
     totalInput.value = totalValue;
 }
 
-function getFreeHoursByDate(date) {
+function getFreeStartHours(date) {
     [selectYear, selectMonth, selectDay] = date.split('-');
     const yearCalendar = window.hourlyCalendar.find(item => item.year === selectYear);
     const monthCalendar = yearCalendar.months.find(item => item.month === selectMonth);
     const dayCalendar = monthCalendar.days.find(item => item.day === selectDay);
     const dayHours = dayCalendar.hours
     const freeHours = hours.filter(hour => !dayHours.includes(hour));
+    return freeHours;
+}
 
-    // while(horaInicioSelect.firstChild) {
-    //     horaInicioSelect.remove(horaInicioSelect.firstChild);
-    // };
-
-    freeHours.forEach(freeHour => {
-        const option = document.createElement('option');
-        option.value = freeHour;
-        option.textContent = freeHour;
-        horaInicioSelect.append(option);
-    });
+function getFreeEndHours(date) {
+    [selectYear, selectMonth, selectDay] = date.split('-');
+    const yearCalendar = window.hourlyCalendar.find(item => item.year === selectYear);
+    const monthCalendar = yearCalendar.months.find(item => item.month === selectMonth);
+    const dayCalendar = monthCalendar.days.find(item => item.day === selectDay);
+    const dayHours = dayCalendar.hours
+    const freeHours = hours.filter(hour => !dayHours.includes(hour));
+    return freeHours;
 }
