@@ -38,6 +38,7 @@ async function initCalendar() {
       select: function (info) {
         const [date, time] = moment(info.start).format('YYYY-MM-DD HH:mm').split(' ');
         document.getElementById('fecha').value = date;
+        document.getElementById('fecha').dispatchEvent(new Event('change'));
         document.getElementById('horaInicio').value = time;
         // document.getElementById('horaInicio').change();
 
