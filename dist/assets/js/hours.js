@@ -21,6 +21,8 @@ fechaInput.addEventListener('change', (e) => {
         option.textContent = freeStartHour;
         horaInicioSelect.append(option);
     });
+    
+    horaInicioSelect.dispatchEvent(new Event('change'));
 });
 
 // Manejar el cambio de hora de inicio
@@ -51,7 +53,9 @@ horaInicioSelect.addEventListener('change', function (e) {
         option.value = endHour.value;
         option.textContent = endHour.value;
         horaFinSelect.append(option);
-    }) 
+    });    
+
+    horaFinSelect.dispatchEvent(new Event('change'));
 });
 
 // Manejar el cambio de hora de finalización y actualizar el total
@@ -64,13 +68,13 @@ horaFinSelect.addEventListener('change', function () {
 function updateTotal(index) {
     let totalValue;
     switch (index) {
-        case 1:
+        case 0:
         totalValue = 500; // 1 hora
         break;
-        case 2:
+        case 1:
         totalValue = 650; // 1.5 horas
         break;
-        case 3:
+        case 2:
         totalValue = 800; // 2 horas
         break;
         default:
