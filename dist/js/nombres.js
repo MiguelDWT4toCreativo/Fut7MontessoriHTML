@@ -14,7 +14,7 @@ function getUserData() {
             } else {
                 // Actualizar los campos con la información del usuario
                 document.querySelector('.usuarioBarra').textContent = data.nombre;
-
+                document.getElementById('usuarioBarra').textContent = data.nombre;
             }
         })
         .catch(error => console.error('Error fetching user data:', error));
