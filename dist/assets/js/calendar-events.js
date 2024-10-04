@@ -142,7 +142,7 @@ async function fetchEvents() {
           id: reservation.id,
           start: reservation.inicio,
           end: reservation.finalizacion,
-          title: (reservation.status === 'cerrada' ? 'Cerrada' : permissions ? reservation.customerData.name : 'Reservada'),
+          title: (reservation.status === 'cerrada' ? 'Cerrada' : permissions ? JSON.parse(reservation.customerData).name : 'Reservada'),
           status: reservation.status
         };
       });

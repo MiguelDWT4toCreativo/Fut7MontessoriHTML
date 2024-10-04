@@ -99,6 +99,7 @@ async function initCalendar() {
       },
       eventClick: function (info) {
         console.log('Evento seleccionado:', info.event.start);
+        console.log('Evento seleccionado:', info.event);
         $('#modalLabelEventView').text(info.event.title);
         $('#modalEventView').modal('show');
       },
