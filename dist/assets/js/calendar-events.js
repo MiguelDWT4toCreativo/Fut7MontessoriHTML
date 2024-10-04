@@ -1,6 +1,33 @@
 // En calendar-events.js
 'use strict';
 
+const userCookies = {};
+const permissions = checkCookies();
+
+function checkCookies() {
+  const rawUserCookies = getCookie('user');
+  if (!rawUserCookies) window.location.href = './../pages/sign-in.html';
+  Object.assign(userCookies, JSON.parse(decodeURIComponent(rawUserCookies)));
+  const adminList = [
+    'admin@admin.com',
+    'jonguitudarriaga@gmail.com'
+  ];
+  if (adminList.includes(userCookies.email)) return true;
+  return false;
+}
+
+// Función para obtener la cookie por nombre
+function getCookie(name) {
+  const nameEQ = name + "=";
+  const ca = document.cookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
+
 var curYear = moment().format('YYYY');
 var curMonth = moment().format('MM');
 
@@ -115,7 +142,7 @@ async function fetchEvents() {
           id: reservation.id,
           start: reservation.inicio,
           end: reservation.finalizacion,
-          title: 'Cliente ' + reservation.clienteId,
+          title: (reservation.status === 'cerrada' ? 'Cerrada' : permissions ? reservation.customerData.name : 'Reservada'),
           status: reservation.status
         };
       });
