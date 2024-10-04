@@ -6,8 +6,8 @@ var curMonth = moment().format('MM');
 
 window.calendarEvents = {
   id: 1,
-  backgroundColor: '#86deac',
-  borderColor: '#008e3e',
+  backgroundColor: '#66cb92',
+  borderColor: '#007e37',
   events: [] // Se inicializa vacío
 };
 
