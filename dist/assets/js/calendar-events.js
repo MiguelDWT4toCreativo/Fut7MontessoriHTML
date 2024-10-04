@@ -1,6 +1,33 @@
 // En calendar-events.js
 'use strict';
 
+const userCookies = {};
+const permissions = checkCookies();
+
+function checkCookies() {
+  const rawUserCookies = getCookie('user');
+  if (!rawUserCookies) window.location.href = './../pages/sign-in.html';
+  Object.assign(userCookies, JSON.parse(decodeURIComponent(rawUserCookies)));
+  const adminList = [
+    'admin@admin.com',
+    'jonguitudarriaga@gmail.com'
+  ];
+  if (adminList.includes(userCookies.email)) return true;
+  return false;
+}
+
+// Función para obtener la cookie por nombre
+function getCookie(name) {
+  const nameEQ = name + "=";
+  const ca = document.cookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
+
 var curYear = moment().format('YYYY');
 var curMonth = moment().format('MM');
 
@@ -16,6 +43,13 @@ window.birthdayEvents = {
   id: 2,
   backgroundColor: '#DA9401',
   borderColor: '#c6931f',
+  events: [] // Se inicializa vacío
+};
+
+window.closedHours = {
+  id: 2,
+  backgroundColor: '#A9A9A9',
+  borderColor: '#808080',
   events: [] // Se inicializa vacío
 };
 
@@ -108,13 +142,15 @@ async function fetchEvents() {
           id: reservation.id,
           start: reservation.inicio,
           end: reservation.finalizacion,
-          title: 'Cliente ' + reservation.clienteId
+          title: (reservation.status === 'cerrada' ? 'Cerrada' : permissions ? reservation.customerData.name : 'Reservada'),
+          status: reservation.status
         };
       });
 
       // Asigna los eventos al objeto calendarEvents
-      window.calendarEvents.events = events;
-      console.log('Eventos asignados a calendarEvents:', window.calendarEvents.events);
+      window.calendarEvents.events = events.filter(event => event.status === 'confirmada');
+      window.birthdayEvents.events = events.filter(event => event.status === 'pendiente');
+      window.closedHours.events = events.filter(event => event.status === 'cerrada');
 
     } else {
       console.error('Error: El resultado no es un arreglo:', result);

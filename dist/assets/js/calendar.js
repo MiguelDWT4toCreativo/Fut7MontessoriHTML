@@ -33,7 +33,7 @@ async function initCalendar() {
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
-      eventSources: [window.calendarEvents, window.birthdayEvents, window.holidayEvents], // Accede a los eventos globales
+      eventSources: [window.calendarEvents, window.birthdayEvents, window.closedHours], // Accede a los eventos globales
       selectable: true,
       select: function (info) {
         const [date, time] = moment(info.start).format('YYYY-MM-DD HH:mm').split(' ');
