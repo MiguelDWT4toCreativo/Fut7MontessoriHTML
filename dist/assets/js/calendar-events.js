@@ -19,6 +19,13 @@ window.birthdayEvents = {
   events: [] // Se inicializa vacío
 };
 
+window.closedHours = {
+  id: 2,
+  backgroundColor: '#A9A9A9',
+  borderColor: '#808080',
+  events: [] // Se inicializa vacío
+};
+
 window.holidayEvents = { /* tu configuración de vacaciones */ };
 
 const bussyHours = [];
@@ -108,13 +115,15 @@ async function fetchEvents() {
           id: reservation.id,
           start: reservation.inicio,
           end: reservation.finalizacion,
-          title: 'Cliente ' + reservation.clienteId
+          title: 'Cliente ' + reservation.clienteId,
+          status: reservation.status
         };
       });
 
       // Asigna los eventos al objeto calendarEvents
-      window.calendarEvents.events = events;
-      console.log('Eventos asignados a calendarEvents:', window.calendarEvents.events);
+      window.calendarEvents.events = events.filter(event => event.status === 'confirmada');
+      window.birthdayEvents.events = events.filter(event => event.status === 'pendiente');
+      window.closedHours.events = events.filter(event => event.status === 'cerrada');
 
     } else {
       console.error('Error: El resultado no es un arreglo:', result);
