@@ -35,13 +35,12 @@ async function initCalendar() {
       },
       eventSources: [window.calendarEvents, window.birthdayEvents, window.closedHours], // Accede a los eventos globales
       selectable: true,
+      
       select: function (info) {
         const [date, time] = moment(info.start).format('YYYY-MM-DD HH:mm').split(' ');
         document.getElementById('fecha').value = date;
         document.getElementById('fecha').dispatchEvent(new Event('change'));
         document.getElementById('horaInicio').value = time;
-        // document.getElementById('horaInicio').change();
-
 
         const [endDate, endTime] = moment(info.end).format('YYYY-MM-DD HH:mm').split(' ');
         let [endHour, endMinutes] = endTime.split(':');
@@ -51,7 +50,7 @@ async function initCalendar() {
         const horaFinSelect = document.getElementById('horaFin');
         
         const startHour = time;
-        horaFinSelect.innerHTML = '<option>Hora</option>';
+        horaFinSelect.innerHTML = '';
         let [hour, minutes] = startHour.split(':');
         hour = parseInt(hour);
         minutes = parseInt(minutes);
@@ -97,11 +96,17 @@ async function initCalendar() {
 
         $('#modalCreateEvent').modal('show');
       },
+
       eventClick: function (info) {
         console.log('Evento seleccionado:', info.event.start);
         $('#modalLabelEventView').text(info.event.title);
         $('#modalEventView').modal('show');
       },
+
+      dateClick:function(info){
+
+      },
+
       customButtons: {
         custom1: {
           icon: 'chevron-left',
