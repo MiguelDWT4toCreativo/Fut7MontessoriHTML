@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Manejar el cambio de hora de inicio
     horaInicioSelect.addEventListener('change', (event) => {
       const value = event.target.value;
-      horaFinSelect.innerHTML = '<option value="">Hora</option>'; // Resetea las opciones de hora de fin
+      horaFinSelect.innerHTML = ''; // Resetea las opciones de hora de fin
   
       // Generar las tres opciones de duración basadas en la hora de inicio seleccionada
       const [startHour, startMinutes] = value.split(':').map(Number);

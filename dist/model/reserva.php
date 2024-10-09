@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sql = "SELECT COUNT(*) AS solapamientos
         FROM Reserva WHERE (inicio < (DATE_ADD(?, INTERVAL 1 DAY)) AND finalizacion > ?) AND status = 'pendiente' OR status = 'cofirmada'";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$end_datetime, $start_datetime]);
+        $stmt->execute([$start_datetime, $end_datetime]);
         $existentDate = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($existentDate['solapamientos'] > 0) {
             sendResponse(403, 'Horario no disponible');
