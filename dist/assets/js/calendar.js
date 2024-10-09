@@ -23,19 +23,22 @@ if (!calendarEl) {
 async function initCalendar() {
   try {
     // Esperar a que los eventos sean cargados
-    await fetchEvents(); 
+    await fetchEvents();
 
     // Inicialización de FullCalendar
     var calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'timeGridWeek',
+      selectable: true,
+      longPressDelay: 0, // Desactivar el retraso del toque largo
+      selectLongPressDelay: 0, // Desactivar la espera antes de seleccionar
+      eventLongPressDelay: 0, // Desactivar la espera para eventos también
       headerToolbar: {
         left: 'custom1 prev,next today',
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
       eventSources: [window.calendarEvents, window.birthdayEvents, window.closedHours], // Accede a los eventos globales
-      selectable: true,
-      
+
       select: function (info) {
         const [date, time] = moment(info.start).format('YYYY-MM-DD HH:mm').split(' ');
         document.getElementById('fecha').value = date;
@@ -48,7 +51,7 @@ async function initCalendar() {
         endMinutes = parseInt(endMinutes);
 
         const horaFinSelect = document.getElementById('horaFin');
-        
+
         const startHour = time;
         horaFinSelect.innerHTML = '';
         let [hour, minutes] = startHour.split(':');
@@ -74,11 +77,11 @@ async function initCalendar() {
         }
 
 
-        const timeLapse = (endHour + (endMinutes/60)) - (hour + (minutes/60));
+        const timeLapse = (endHour + (endMinutes / 60)) - (hour + (minutes / 60));
         let total;
-        switch(timeLapse) {
+        switch (timeLapse) {
           case 0.5:
-            endHour = endHour + (endMinutes/60) + .5;
+            endHour = endHour + (endMinutes / 60) + .5;
             endMinutes = endHour - Math.floor(endHour);
             endHour = endHour - endMinutes;
             endMinutes *= 60;
@@ -90,7 +93,7 @@ async function initCalendar() {
           default: break;
         }
 
-        horaFinSelect.value = `${endHour < 10 ? '0'+endHour : endHour}:${endMinutes === 0 ? '00' : endMinutes.toString().padStart(2, '0')}`;
+        horaFinSelect.value = `${endHour < 10 ? '0' + endHour : endHour}:${endMinutes === 0 ? '00' : endMinutes.toString().padStart(2, '0')}`;
         document.getElementById('total').value = total;
 
 
@@ -104,7 +107,7 @@ async function initCalendar() {
         $('#modalEventView').modal('show');
       },
 
-      dateClick:function(info){
+      dateClick: function (info) {
 
       },
 
